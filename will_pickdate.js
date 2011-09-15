@@ -211,9 +211,9 @@
         default: this.renderMonth();
       }
 
-      this.picker.find('.previous').toggle(!this.limit.left);
-      this.picker.find('.next').toggle(!this.limit.right);
-      this.picker.find('.titleText').css('cursor', this.allowZoomOut() ? 'pointer' : 'default');
+      this.picker.find('.previous').toggleClass('disabled',this.limit.left);
+      this.picker.find('.next').toggleClass('disabled',this.limit.right);
+      this.picker.find('.title').css('cursor', this.allowZoomOut() ? 'pointer' : 'default');
 
       this.working_date = startDate;
 
@@ -251,12 +251,12 @@
       var h, title_cont, b;
 
       this.picker.append(h = $('<div class="header"/>'));
-      h.append(title_cont = $('<div class="title"/>'));
+      h.append(title_cont = $('<div class="title"/>').click($.proxy(this.zoomOut, this)));
 
       h.append($('<div class="previous">&larr;</div>').click($.proxy(this.previous, this)));
       h.append($('<div class="next">&rarr;</div>').click($.proxy(this.next, this)));
       h.append($('<div class="closeButton">x</div>').click($.proxy(this.close, this)));
-      title_cont.append($('<span class="titleText"/>').click($.proxy(this.zoomOut, this)));
+      title_cont.append($('<span class="titleText"/>'));
 
       this.picker.append(b = $('<div class="body"/>'));
       this.bodyHeight = b.outerHeight();
@@ -276,7 +276,7 @@
         this.working_date.setFullYear(this.working_date.getFullYear() - 1);
       }
 
-      this.picker.find('.titleText').text(this.working_date.getFullYear() + '-' +
+      this.renderTitle(this.working_date.getFullYear() + '-' +
               (this.working_date.getFullYear() + this.options.yearsPerPage - 1));
 
       var i, y, e, available = false, container;
@@ -326,7 +326,7 @@
           container,
           i,e;
 
-      this.picker.find('.titleText').text(this.working_date.getFullYear());
+      this.renderTitle(this.working_date.getFullYear());
       this.working_date.setMonth(0);
 
       this.newContents.append(container = $('<div class="months"/>'));
@@ -366,10 +366,10 @@
       this.newContents.append(container = $('<div class="time"/>'));
 
       if(this.options.timePickerOnly) {
-        this.picker.find('.titleText').text('Select a time');
+          this.renderTitle('Select a time');
       }
       else {
-        this.picker.find('.titleText').text(this.format(this.working_date, 'j M, Y'));
+          this.renderTitle(this.format(this.working_date, 'j M, Y'));
       }
 
       container.append($('<input type="text" class="hour"' + (this.options.militaryTime ? ' style="left:30px"' : '') +
@@ -469,8 +469,7 @@
               t = this.today.toDateString(),
               currentChoice = this.dateFromObject(this.choice).toDateString(),
               d, i, classes, e, weekContainer;
-
-      this.picker.find('.titleText').html(this.options.months[month] + ' ' + this.working_date.getFullYear());
+      this.renderTitle(this.options.months[month] + ' ' + this.working_date.getFullYear());
 
       this.working_date.setDate(1);
       while(this.working_date.getDay() != this.options.startDay) {
@@ -526,6 +525,15 @@
       if(!available) this.limit.right = true;
     },
 
+    renderTitle: function(text){
+        if(this.allowZoomOut()){
+            this.picker.find('.title').removeClass('disabled');
+        }else{
+            this.picker.find('.title').addClass('disabled');
+        }
+        this.picker.find('.titleText').text(text);
+    },
+
     limited: function(type) {
       var cs = !!this.options.minDate,
         ce = !!this.options.maxDate;
@@ -573,8 +581,10 @@
         case 'month':
           this.working_date.setMonth(this.working_date.getMonth() - 1);
       }
+      if(this.mode != 'time'){
+        this.render('left');
+      }
 
-      this.render('left');
     },
 
     next: function() {
@@ -586,8 +596,9 @@
         case 'month':
           this.working_date.setMonth(this.working_date.getMonth() + 1);
       }
-
-      this.render('right');
+      if (this.mode !='time'){
+        this.render('right');
+      }
     },
 
     close: function(e, force) {
