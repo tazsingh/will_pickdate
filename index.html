@@ -1,19 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset='utf-8'>
-        
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" ></script>
-    <script type="text/javascript" src="https://raw.github.com/zenapsis/will_pickdate/master/jquery.mousewheel.js" ></script>
-    <script type="text/javascript" src="https://raw.github.com/zenapsis/will_pickdate/master/will_pickdate.js" ></script>
-
-    <script type="text/javascript">
-        $(function(){
-            $('input').will_pickdate({ timePicker: true, format: 'j F Y @ h:iA', inputOutputFormat: 'Y-m-d H:i:s',
-              startDay: 1 })
-        });
-
-    </script>
+    <meta charset='utf-8'>    
   
     <title>will_pickdate</title>
   
@@ -42,6 +30,16 @@
     </style>
     
     <link href="https://raw.github.com/zenapsis/will_pickdate/master/style.css" media="screen" rel="stylesheet" type="text/css">
+    
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" ></script>
+    <script type="text/javascript" src="https://raw.github.com/zenapsis/will_pickdate/master/jquery.mousewheel.js" ></script>
+    <script type="text/javascript" src="https://raw.github.com/zenapsis/will_pickdate/master/will_pickdate.js" ></script>
+
+    <script type="text/javascript">
+      $(function(){
+          $('input').will_pickdate({ timePicker: true, format: 'j F Y @ h:iA', inputOutputFormat: 'Y-m-d H:i:s', startDay: 1 });
+      });
+    </script>
   </head>
 
   <body>
