@@ -1,83 +1,147 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset='utf-8'>
-
-  <title>zenapsis/will_pickdate @ GitHub</title>
-
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #ffffff;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #000000;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-    h1 { font-size: 3.8em; color: #000000; margin-bottom: 3px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #000000; }
-    h3 { text-align: center; color: #000000; }
-    a { color: #000000; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-  </style>
-</head>
-
-<body>
-  <a href="http://github.com/zenapsis/will_pickdate"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-
-  <div id="container">
-
-    <div class="download">
-      <a href="http://github.com/zenapsis/will_pickdate/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/zenapsis/will_pickdate/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
-
-    <h1><a href="http://github.com/zenapsis/will_pickdate">will_pickdate</a>
-      <span class="small">by <a href="http://github.com/zenapsis">zenapsis</a></span></h1>
-
-    <div class="description">
-      Easy to use and well designed date picker widget with year in decades, month in year, day of month, and time of day support.
-    </div>
-
-    <p>Most date pickers only support day of month. If you want to pick a time, you would require another time picker widget. This is both bad UX and bad UI.
-
-With will_pickdate, you can do all that and more within a single well designed widget.</p><h2>Dependencies</h2>
-<p>https://github.com/brandonaaron/jquery-mousewheel</p>
-<h2>License</h2>
-<p>MIT</p>
-<h2>Authors</h2>
-<p>Tasveer Singh (tazsingh)<br/>Andrew Walker (awalkerca)<br/><br/><br/>      </p>
-<h2>Contact</h2>
-<p>zenapsis (taz@zenapsis.com)<br/>      </p>
-
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/zenapsis/will_pickdate/zipball/master">zip</a> or
-      <a href="http://github.com/zenapsis/will_pickdate/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/zenapsis/will_pickdate</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/zenapsis/will_pickdate">zenapsis/will_pickdate</a>
-    </div>
-
-  </div>
-
+  <head>
+    <meta charset='utf-8'>
   
-</body>
+    <title>will_pickdate</title>
+  
+    <style type="text/css">
+      body {
+        margin-top: 1.0em;
+        background-color: #ffffff;
+        font-family: Helvetica Neue, Helvetica, Arial, FreeSans, san-serif;
+        color: #000000;
+      }
+      #container {
+        margin: 0 auto;
+        width: 700px;
+      }
+      h1 { font-size: 3.8em; color: #000000; margin-bottom: 3px; }
+      h1 .small { font-size: 0.4em; }
+      h1 a { text-decoration: none }
+      h2 { font-size: 1.5em; color: #000000; }
+      h3 { text-align: center; color: #000000; }
+      a { color: #060; }
+      .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
+      .download { float: right; }
+      pre { background: #000; color: #fff; padding: 15px;}
+      hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
+      .footer { text-align:center; padding-top:30px; font-style: italic; }
+    </style>
+  </head>
+
+  <body>
+    <a href="http://github.com/zenapsis/will_pickdate">
+      <img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" />      
+    </a>
+  
+    <div id="container">
+  
+      <div class="download">
+        <a href="http://github.com/zenapsis/will_pickdate/zipball/master">
+          <img border="0" width="90" src="http://github.com/images/modules/download/zip.png">
+        </a>
+        <a href="http://github.com/zenapsis/will_pickdate/tarball/master">
+          <img border="0" width="90" src="http://github.com/images/modules/download/tar.png">
+        </a>
+      </div>
+    
+      <h1>
+        <a href="http://github.com/zenapsis/will_pickdate">will_pickdate</a>
+        <span class="small">by <a href="http://github.com/zenapsis">zenapsis</a></span>      
+      </h1>
+    
+      <div class="description">
+        Easy to use and well designed date picker widget with year in decades, month in year, day of month, and time of day support.
+      </div>
+    
+      <p>Most date pickers only support day of month. If you want to pick a time, you would require another time picker widget. This is both bad UX and bad UI.<br/>
+      With will_pickdate, you can do all that and more within a single well designed widget.<br/>
+      Clicking on the title will take you to the previous view, while selecting a year, month, or day will take you to the next view.
+      </p>
+      
+      <h2>Usage</h2>
+      <p>Default:</p>
+      <pre>
+      $(name_of_element).will_pickdate({});
+      </pre>
+      <p>With Time Selection (requires jquery.mousewheel):</p>
+      <pre>
+      $(name_of_element).will_pickdate({
+        timePicker: true
+      });
+      </pre>
+      
+      <h2>Options</h2>
+      <pre>
+      pickerClass: 'wpd' // CSS class namespace
+      days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+      months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+               'November', 'December']
+      dayShort: 2
+      monthShort: 3
+      startDay: 0 // Sunday (0) through Saturday (6) - be aware that this may affect your layout, since the days on
+                  // the right might have a different margin
+      timePicker: false
+      timePickerOnly: false
+      yearPicker: true
+      militaryTime: false
+      yearsPerPage: 20
+      format: 'd-m-Y'
+      allowEmpty: false
+      inputOutputFormat: 'U' // default to unix timestamp
+      animationDuration: 400
+      useFadeInOut: !$.browser.msie // dont animate fade-in/fade-out for IE
+      startView: 'month' // allowed values: {time, month, year, decades}
+      positionOffset: { x: 0, y: 0 }
+      minDate: null // { date: '[date-string]', format: '[date-string-interpretation-format]' }
+      maxDate: null // same as minDate
+      debug: false
+      toggleElements: null
+      </pre>
+      
+      <h2>Callbacks</h2>
+      <pre>
+      onShow: $.noop    // triggered when will_pickdate pops up
+      onClose: $.noop   // triggered after will_pickdate is closed (destroyed)
+      onSelect: $.noop  // triggered when a date is selected
+      </pre>
+    
+      <h2>Dependencies</h2>
+      <p>
+        <a href="http://jquery.com/" alt="jQuery">jQuery</a><br/>
+        <a href="https://github.com/brandonaaron/jquery-mousewheel" alt="jquery.mousewheel">jquery.mousewheel</a> if you would like to use the time picker        
+      </p>    
+    
+      <h2>Authors</h2>
+      <p>
+        Tasveer Singh (<a href="https://github.com/tazsingh" alt="tazsingh">tazsingh</a>)<br/>
+        Andrew Walker (<a href="https://github.com/awalkerca" alt="awalkerca">awalkerca</a>)
+      </p>
+    
+      <h2>Inspired By</h2>
+      <p>
+        <a href="https://github.com/monkeyphysics/mootools-datepicker" alt="MooTools DatePicker">MooTools DatePicker</a>
+      </p>
+        
+      <h2>Download</h2>
+      <p>
+        You can download this project in either
+        <a href="http://github.com/zenapsis/will_pickdate/zipball/master">zip</a> or
+        <a href="http://github.com/zenapsis/will_pickdate/tarball/master">tar</a> formats.
+      </p>
+      <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
+        by running:
+        <pre>$ git clone git://github.com/zenapsis/will_pickdate</pre>
+      </p>
+            
+      <h2>License</h2>
+      <p>MIT</p>
+    
+      <div class="footer">
+        get the source code on GitHub : <a href="http://github.com/zenapsis/will_pickdate">zenapsis/will_pickdate</a>
+      </div>
+  
+    </div>
+  </body>
 </html>
