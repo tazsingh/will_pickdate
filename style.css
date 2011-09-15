@@ -8,12 +8,12 @@ html {
 	padding: 5px;
 	height: 221px;
 	background: #99e649;
-    -moz-border-radius: 10px;
+  -moz-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
-    -webkit-box-shadow: 0 0 10px #999;
-    -moz-box-shadow: 0 0 10px #999;
+  -webkit-box-shadow: 0 0 10px #999;
+  -moz-box-shadow: 0 0 10px #999;
 }
 
 .wpd .header {
@@ -110,7 +110,7 @@ html {
 
 .wpd .header .titleText {
 	font-weight: bold;
-    font-size: 16px;
+  font-size: 16px;
 }
 .wpd .header .next,
 .wpd .header .previous,
@@ -121,8 +121,8 @@ html {
     padding-bottom:4px;
 	top: 0px;
 	cursor: pointer;
-    font-weight: bold;
-    font-size: 18px;
+  font-weight: bold;
+  font-size: 18px;
 }
 .wpd .header .previous {
 	left: 0px;
@@ -158,7 +158,8 @@ html {
 
 .wpd .time .hour,
 .wpd .time .separator,
-.wpd .time .minutes {
+.wpd .time .minutes,
+.wpd .time .ampm {
 	border: 1px solid #ccc;
 	background: #fff;
 	width: 50px;
@@ -169,28 +170,34 @@ html {
 	padding: 2px;
 }
 
-.wpd .time .hour {
-	left: 30px;
-    -moz-border-radius: 10px;
+.wpd .time .hour,
+.wpd .time .minutes,
+.wpd .time .ampm {
+  -moz-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
+}
+
+.wpd .time .hour {
+	left: 10px;
 }
 .wpd .time .separator {
 	background: transparent;
-	border: 0px;
+	border: 0;
 	width: 10px;
-	left: 91px;
-    top: 60px;
+	left: 71px;
+  top: 60px;
 }
 
 .wpd .time .minutes {
-	left: 110px;
-    -moz-border-radius: 10px;
-	-khtml-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	border-radius: 10px;
+	left: 90px;
 }
+
+.wpd .time .ampm {
+  left: 150px;
+}
+
 .wpd .time .ok {
 	position: absolute;
 	top: 105px;
@@ -208,7 +215,7 @@ html {
 	overflow: hidden;
 	height: 21px;
 	margin: 0 3px 3px 0;
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .wpd .days .day0 {
@@ -225,7 +232,7 @@ html {
 }
 
 .wpd .days .otherMonth {
-    font-weight: normal;
+  font-weight: normal;
 }
 
 .wpd .months .month {
@@ -263,7 +270,7 @@ html {
 	overflow: hidden;
 	height: 25px;
 	margin: 0 3px 3px 0;
-    font-size: 16px;
+  font-size: 16px;
 }
 
 .wpd .years .year3,
@@ -286,7 +293,7 @@ html {
 .wpd .selected {
 	background: #000 !important;
 	color: #fff !important;
-    -moz-border-radius: 10px;
+  -moz-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
@@ -302,8 +309,8 @@ html {
 .wpd .months .month:hover,
 .wpd .years .year:hover {
 	background: #fff !important;
-    color: #000 !important;
-    -moz-border-radius: 10px;
+  color: #000 !important;
+  -moz-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
