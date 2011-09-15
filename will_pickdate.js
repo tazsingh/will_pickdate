@@ -27,6 +27,7 @@
       timePicker: false,
       timePickerOnly: false,
       yearPicker: true,
+      militaryTime: false,
       yearsPerPage: 20,
       format: 'd-m-Y',
       allowEmpty: false,
@@ -72,7 +73,6 @@
     else {
       init_clone_val = '';
     }
-
 
     this.display = this.element.css('display');
     this.clone = this.element
@@ -372,29 +372,63 @@
         this.picker.find('.titleText').text(this.format(this.working_date, 'j M, Y'));
       }
 
-      container.append($('<input type="text" class="hour" maxlength="2" value="' +
-              this.leadZero(this.working_date.getHours()) + '"/>').mousewheel($.proxy(function(event, d, dx, dy) {
-        var i = $(event.target), v = parseInt(i.val());
+      container.append($('<input type="text" class="hour"' + (this.options.militaryTime ? ' style="left:30px"' : '') +
+            ' maxlength="2" value="' +
+              this.leadZero(this.options.militaryTime ?
+                this.working_date.getHours() :
+                  (this.working_date.getHours() > 12 ? this.working_date.getHours() - 12 :
+                    this.working_date.getHours())) + '"/>').mousewheel($.proxy(function(event, d, dx, dy) {
+        var i = $(event.target), v = parseInt(i.val(), 10);
         i.focus();
-        if(dy > 0) {
-          v = (v < 23) ? v + 1 : 0;
+
+        if(this.options.militaryTime) {
+          if(dy > 0) {
+            v = (v < 23) ? v + 1 : 0;
+          }
+          else if(dy < 0) {
+            v = (v > 0) ? v - 1 : 23;
+          }
         }
         else {
-          v = (v > 0) ? v - 1 : 23;
+          var ampm = this.picker.find('.ampm');
+          if(dy > 0) {
+            if(v == 11) {
+              v = 12;
+              ampm.val(ampm.val() == 'AM' ? 'PM' : 'AM');
+            }
+            else if(v < 12) {
+              v++;
+            }
+            else {
+              v = 1;
+            }
+          }
+          else if (dy < 0) {
+            if(v == 12) {
+              v = 11;
+              ampm.val(ampm.val() == 'AM' ? 'PM' : 'AM');
+            }
+            else if(v > 1) {
+              v--;
+            }
+            else {
+              v = 12;
+            }
+          }
         }
 
         i.val(this.leadZero(v));
         event.stopPropagation();
       }, this)));
 
-      container.append($('<input type="text" class="minutes" maxlength="2" value="' +
+      container.append($('<input type="text" class="minutes"' + (this.options.militaryTime ? ' style="left:110px"' : '') + ' maxlength="2" value="' +
               this.leadZero(this.working_date.getMinutes()) + '"/>').mousewheel($.proxy(function(event, d, dx, dy) {
-        var i = $(event.target), v = parseInt(i.val());
+        var i = $(event.target), v = parseInt(i.val(), 10);
         i.focus();
         if(dy > 0) {
           v = (v < 59) ? v + 1 : 0;
         }
-        else {
+        else if(dy < 0) {
           v = (v > 0) ? v - 1 : 59;
         }
 
@@ -402,12 +436,28 @@
         event.stopPropagation();
       }, this)));
 
-      container.append($('<div class="separator">:</div>'));
+      container.append($('<div class="separator"' + (this.options.militaryTime ? ' style="left:91px"' : '') + '>:</div>'));
+
+      if(!this.options.militaryTime) {
+        container.append($('<input type="text" class="ampm" maxlength="2" value="' +
+          (this.working_date.getHours() >= 12 ? "PM" : "AM") + '"/>').mousewheel($.proxy(function(event, d, dx, dy) {
+          var i = $(event.target);
+          i.focus();
+
+          if(dy > 0 || dy < 0) {
+            i.val(i.val() == "AM" ? "PM" : "AM");
+          }
+
+          event.stopPropagation();
+        })));
+      }
 
       container.append($('<input type="submit" value="OK" class="ok"/>').click($.proxy(function(event) {
         event.stopPropagation();
-        this.select($.extend(this.dateToObject(this.working_date), { hours: parseInt(this.picker.find('.hour').val()),
-            minutes: parseInt(this.picker.find('.minutes').val())}));
+        this.select($.extend(this.dateToObject(this.working_date),
+          { hours: parseInt(this.picker.find('.hour').val(), 10) +
+              (!this.options.militaryTime && this.picker.find('.ampm').val() == "PM" ? 12 : 0),
+            minutes: parseInt(this.picker.find('.minutes').val(), 10) }));
       }, this)));
     },
 
@@ -488,10 +538,10 @@
                   (ce && this.working_date.getFullYear() > this.options.maxDate.getFullYear());
 
         case 'month':
-          var ms = parseInt('' + this.working_date.getFullYear() + this.leadZero(this.working_date.getMonth()));
+          var ms = parseInt('' + this.working_date.getFullYear() + this.leadZero(this.working_date.getMonth()), 10);
           return cs && ms < parseInt('' + this.options.minDate.getFullYear() +
-                  this.leadZero(this.options.minDate.getMonth())) || ce && ms >
-                  parseInt('' + this.options.maxDate.getFullYear() + this.leadZero(this.options.maxDate.getMonth()));
+                  this.leadZero(this.options.minDate.getMonth()), 10) || ce && ms >
+                  parseInt('' + this.options.maxDate.getFullYear() + this.leadZero(this.options.maxDate.getMonth()), 10);
 
         case 'date':
           return (cs && this.working_date < this.options.minDate) || (ce && this.working_date > this.options.maxDate);
@@ -669,7 +719,7 @@
       for (c in a) {
         v = a[c];
         switch(c) {
-          case 'y': d.setFullYear(v < 30 ? 2000 + parseInt(v) : 1900 + parseInt(v)); break; // assume between 1930 - 2029
+          case 'y': d.setFullYear(v < 30 ? 2000 + parseInt(v, 10) : 1900 + parseInt(v, 10)); break; // assume between 1930 - 2029
           case 'Y': d.setFullYear(v); break;
           case 'm':
           case 'n': d.setMonth(v - 1); break;
@@ -681,10 +731,10 @@
           case 'G':
           case 'H': d.setHours(v); break;
           case 'g':
-          case 'h': if (a['a'] == 'pm' || a['A'] == 'PM') { d.setHours(v == 12 ? 0 : parseInt(v) + 12); } else { d.setHours(v); } break;
+          case 'h': if (a['a'] == 'pm' || a['A'] == 'PM') { d.setHours(v == 12 ? 0 : parseInt(v, 10) + 12); } else { d.setHours(v); } break;
           case 'i': d.setMinutes(v); break;
           case 's': d.setSeconds(v); break;
-          case 'U': d = new Date(parseInt(v) * 1000);
+          case 'U': d = new Date(parseInt(v, 10) * 1000);
         }
       }
 
