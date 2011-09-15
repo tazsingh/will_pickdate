@@ -557,6 +557,7 @@
       if(force || (e && e.target != this.picker && this.picker.has(e.target).size() == 0 &&
               e.target != this.visual)) {
 
+        this.element.blur();
         if(this.options.useFadeInOut) {
           this.closing = true;
           this.picker.fadeOut(this.options.animationDuration >> 1, $.proxy(this.destroy, this));
