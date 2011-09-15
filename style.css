@@ -1,19 +1,15 @@
-html {
-  font-family: Helvetica Neue, Helvetica, Verdana, Arial, sans-serif;
-}
-
 .wpd {
-	position: absolute;
-	width: 208px;
-	padding: 5px;
-	height: 221px;
-	background: #99e649;
-  -moz-border-radius: 10px;
-	-khtml-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	border-radius: 10px;
-  -webkit-box-shadow: 0 0 10px #999;
-  -moz-box-shadow: 0 0 10px #999;
+    position: absolute;
+    width: 208px;
+    padding: 5px;
+    height: 221px;
+    background: #99e649;
+    -moz-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 0 10px #999;
+    -moz-box-shadow: 0 0 10px #999;
 }
 
 .wpd .header {
@@ -29,16 +25,16 @@ html {
     white-space: nowrap;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#99e649), to(#80bf3d));
     background-image: -webkit-linear-gradient(top, #99e649, #80bf3d);
-    background-image: -moz-linear-gradient(top, #eee, #ccc);
-    background-image: -ms-linear-gradient(top, #eee, #ccc);
-    background-image: -o-linear-gradient(top, #eee, #ccc);
+    background-image: -moz-linear-gradient(top, #99e649, #80bf3d);
+    background-image: -ms-linear-gradient(top, #99e649, #80bf3d);
+    background-image: -o-linear-gradient(top, #99e649, #80bf3d);
     background-image: linear-gradient(top, #99e649, #80bf3d);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#eeeeee', EndColorStr='#cccccc');
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#99e649', EndColorStr='#80bf3d');
     text-decoration: none;
     text-shadow: 0 1px 0 rgba(255,255,255,.8);
     height: 22px;
-    -moz-box-shadow: 0 0 1px 1px rgba(255,255,255,.8) inset, 0 1px 0 rgba(0,0,0,.3);
-    -webkit-box-shadow: 0 0 1px 1px rgba(255,255,255,.8) inset, 0 1px 0 rgba(0,0,0,.3);
+    -moz-box-shadow: 0 0 1px 1px rgba(0,0,0,.1) inset, 0 1px 0 rgba(0,0,0,.3);
+    -webkit-box-shadow: 0 0 1px 1px rgba(0,0,0,.1) inset, 0 1px 0 rgba(0,0,0,.3);
     box-shadow: 0 0 1px 1px rgba(0,0,0,.1) inset, 0 1px 0 rgba(0,0,0,.3);
 }
 
@@ -97,20 +93,20 @@ html {
 .wpd .header .previous:active,
 .wpd .header .title:active
 {
-        -moz-box-shadow: 0 0 4px 2px rgba(0,0,0,.3) inset;
-        -webkit-box-shadow: 0 0 4px 2px rgba(0,0,0,.3) inset;
-        box-shadow: 0 0 4px 2px rgba(0,0,0,.3) inset;
+    -moz-box-shadow: 0 0 4px 2px rgba(0,0,0,.3) inset;
+    -webkit-box-shadow: 0 0 4px 2px rgba(0,0,0,.3) inset;
+    box-shadow: 0 0 4px 2px rgba(0,0,0,.3) inset;
 }
 
 .wpd .header .title:focus
 {
-        outline: 0;
-        background: #fafafa;
+    outline: 0;
+    background: #fafafa;
 }
 
 .wpd .header .titleText {
 	font-weight: bold;
-  font-size: 16px;
+    font-size: 16px;
 }
 .wpd .header .next,
 .wpd .header .previous,
@@ -121,8 +117,8 @@ html {
     padding-bottom:4px;
 	top: 0px;
 	cursor: pointer;
-  font-weight: bold;
-  font-size: 18px;
+    font-weight: bold;
+    font-size: 18px;
 }
 .wpd .header .previous {
 	left: 0px;
@@ -173,10 +169,10 @@ html {
 .wpd .time .hour,
 .wpd .time .minutes,
 .wpd .time .ampm {
-  -moz-border-radius: 10px;
-	-khtml-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	border-radius: 10px;
+    -moz-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
 }
 
 .wpd .time .hour {
@@ -187,7 +183,7 @@ html {
 	border: 0;
 	width: 10px;
 	left: 71px;
-  top: 60px;
+    top: 60px;
 }
 
 .wpd .time .minutes {
@@ -195,7 +191,7 @@ html {
 }
 
 .wpd .time .ampm {
-  left: 150px;
+    left: 150px;
 }
 
 .wpd .time .ok {
@@ -215,7 +211,7 @@ html {
 	overflow: hidden;
 	height: 21px;
 	margin: 0 3px 3px 0;
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .wpd .days .day0 {
@@ -232,7 +228,7 @@ html {
 }
 
 .wpd .days .otherMonth {
-  font-weight: normal;
+    font-weight: normal;
 }
 
 .wpd .months .month {
@@ -270,7 +266,7 @@ html {
 	overflow: hidden;
 	height: 25px;
 	margin: 0 3px 3px 0;
-  font-size: 16px;
+    font-size: 16px;
 }
 
 .wpd .years .year3,
@@ -293,7 +289,7 @@ html {
 .wpd .selected {
 	background: #000 !important;
 	color: #fff !important;
-  -moz-border-radius: 10px;
+    -moz-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
@@ -309,8 +305,8 @@ html {
 .wpd .months .month:hover,
 .wpd .years .year:hover {
 	background: #fff !important;
-  color: #000 !important;
-  -moz-border-radius: 10px;
+    color: #000 !important;
+    -moz-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
