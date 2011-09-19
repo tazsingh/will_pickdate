@@ -78,13 +78,13 @@
     this.clone = this.element
             .css('display', this.options.debug ? this.display : 'none')
             .data('will_pickdate', true)
-            .clone()
+            .clone(true)
             .data('will_pickdate', true)
             .removeAttr('name')
             .css('display', this.display)
             .val(init_clone_val);
 
-    this.element.after(this.clone);
+    this.element.before(this.clone);
 
     if(this.toggler) {
       this.toggler.css('cursor', 'pointer').click($.proxy(function(event) {
