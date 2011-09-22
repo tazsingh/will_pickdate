@@ -157,7 +157,7 @@
       d.setDate(1);
       $.each(['year', 'month', 'day', 'hours', 'minutes', 'seconds'], $.proxy(function(index, value) {
         v = values[value];
-        if(!v) return;
+        if(!(v || v === 0)) return;
         switch(value) {
           case 'day': d.setDate(v); break;
           case 'month': d.setMonth(v); break;
