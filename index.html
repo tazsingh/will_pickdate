@@ -110,8 +110,8 @@ days:               ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
 months:             ['January', 'February', 'March', 'April', 'May',
                      'June', 'July', 'August', 'September', 'October',
                      'November', 'December']
-dayShort:           2
-monthShort:         3
+dayShort:           2 // Number of letters to display for each day
+monthShort:         3 // Number of letters to display for each month
 startDay:           0 // Sunday (0) through Saturday (6) - be aware that
                       // this may affect your layout, since the days on
                       // the right might have a different margin
@@ -125,10 +125,12 @@ allowEmpty:         false
 inputOutputFormat:  'U' // default to unix timestamp
 animationDuration:  400
 useFadeInOut:       !$.browser.msie // dont fade for IE
-startView:          'month' // allowed values: { time, month, year, decades }
+startView:          'month' // values in { time, month, year, decades }
 positionOffset:     { x: 0, y: 0 }
-minDate:            null // { date: '[date-string]',
-                         //   format: '[date-string-interpretation-format]' }
+minDate:            null // { 
+                         //   date: '[date-string]',
+                         //   format: '[date-string-interpretation-format]'
+                         // }
 maxDate:            null // same as minDate
 debug:              false
 toggleElements:     null
@@ -136,8 +138,8 @@ toggleElements:     null
       
       <h2>Callbacks</h2>
       <pre>
-onShow: $.noop    // triggered when will_pickdate pops up
-onClose: $.noop   // triggered after will_pickdate is closed (destroyed)
+onShow:   $.noop    // triggered when will_pickdate pops up
+onClose:  $.noop   // triggered after will_pickdate is closed (destroyed)
 onSelect: $.noop  // triggered when a date is selected
       </pre>
     
