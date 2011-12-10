@@ -1,5 +1,4 @@
 //= require jquery.mousewheel
-//= require jquery.kwicks
 
 (function($) {
   $.fn.will_pickdate = function(opts) {
