@@ -631,7 +631,7 @@
 
     select: function(values) {
       this.working_date = this.dateFromObject($.extend(this.choice, values));
-      this.input.val(this.format(this.working_date, this.options.inputOutputFormat));
+      this.input.val(this.format(this.working_date, this.options.inputOutputFormat)).change();
       this.visual.val(this.format(this.working_date, this.options.format));
       if($.isFunction(this.options.onSelect)) this.options.onSelect(this.working_date);
       this.close(null, true);
