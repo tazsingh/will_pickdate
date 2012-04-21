@@ -176,23 +176,24 @@
           docHeight = $(window).height(),
           scrollTop = $(window).scrollTop(),
           pickerHeight = this.picker.outerHeight(),
-          lowerDifference = Math.abs(position.top + this.visual.outerHeight() - docHeight),
+          lowerDifference = Math.abs(docHeight - position.top + this.visual.outerHeight()),
           upperDifference = position.top + scrollTop,
-          displayAbove = lowerDifference < pickerHeight,
-          displayBelow = upperDifference < pickerHeight;
+          displayBelow = lowerDifference > pickerHeight,
+          displayAbove = upperDifference > pickerHeight;
 
-      if (displayAbove && displayBelow) {
+      if (!displayAbove && !displayBelow) {
         // display at midpoint of available screen realestate
         position.top = docHeight / 2 - pickerHeight / 2;
         if (docHeight + scrollTop < pickerHeight) {
           console.warn("will_pickdate: Not enough room to display date picker.")
         }
-      } else if(displayAbove) {
+
+      } else if (displayBelow) {
+        // display below takes priority over display above
+        position.top += this.visual.outerHeight();
+      } else {
         // display at offset above visual element
         position.top -= pickerHeight;
-      } else {
-        // display below
-        position.top += this.visual.outerHeight();
       }
       return position;
     },
