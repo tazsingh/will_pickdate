@@ -80,6 +80,7 @@
             .clone(true)
             .data('will_pickdate', true)
             .removeAttr('name')
+            .attr('id', this.element.attr('id') + '_display')
             .css('display', this.display)
             .val(init_clone_val);
 
