@@ -62,7 +62,8 @@ Dependencies
 
 Authors
 -------
-Tasveer Singh ([tazsingh](http://github.com/tazsingh "tazsingh"))  
+Tasveer Singh ([tazsingh](http://github.com/tazsingh "tazsingh")) 
+Adam St. John ([astjohn](http://github.com/astjohn "astjohn"))
 Andrew Walker ([awalkerca](http://github.com/awalkerca "awalkerca"))
 
 Inspired By
