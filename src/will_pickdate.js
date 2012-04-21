@@ -66,7 +66,7 @@
       init_clone_val = this.format(new Date(this.unformat(init_clone_val, this.options.inputOutputFormat)),
               this.options.format);
     }
-    else if(!options.allowEmpty) {
+    else if(!this.options.allowEmpty) {
       init_clone_val = this.format(new Date(), this.options.format);
     }
     else {
