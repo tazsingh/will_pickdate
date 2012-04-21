@@ -119,7 +119,7 @@
 
   will_pickdate.prototype = {
     onFocus: function(original, visual_input) {
-      var init_visual_date, d = visual_input.offset();
+      var init_visual_date;
 
       if(init_visual_date = original.val()) {
         init_visual_date = this.unformat(init_visual_date, this.options.inputOutputFormat).valueOf();
@@ -135,10 +135,7 @@
       }
 
       this.input = original, this.visual = visual_input;
-      this.show({
-        left: d.left + this.options.positionOffset.x,
-        top: d.top + this.visual.outerHeight() + this.options.positionOffset.y
-      }, init_visual_date);
+      this.show(init_visual_date);
     },
 
     dateToObject: function(d) {
@@ -171,7 +168,36 @@
       return d;
     },
 
-    show: function(position, timestamp) {
+    // Calculate position for picker. Returns object for use with css.
+    pickerPosition: function() {
+      // base position is top left corner of visual input plus offset specified by user options
+      var position = { left: this.visual.offset().left + this.options.positionOffset.x,
+                       top: this.visual.offset().top + this.options.positionOffset.y },
+          docHeight = $(window).height(),
+          scrollTop = $(window).scrollTop(),
+          pickerHeight = this.picker.outerHeight(),
+          lowerDifference = Math.abs(position.top + this.visual.outerHeight() - docHeight),
+          upperDifference = position.top + scrollTop,
+          displayAbove = lowerDifference < pickerHeight,
+          displayBelow = upperDifference < pickerHeight;
+
+      if (displayAbove && displayBelow) {
+        // display at midpoint of available screen realestate
+        position.top = docHeight / 2 - pickerHeight / 2;
+        if (docHeight + scrollTop < pickerHeight) {
+          console.warn("will_pickdate: Not enough room to display date picker.")
+        }
+      } else if(displayAbove) {
+        // display at offset above visual element
+        position.top -= pickerHeight;
+      } else {
+        // display below
+        position.top += this.visual.outerHeight();
+      }
+      return position;
+    },
+
+    show: function(timestamp) {
       this.formatMinMaxDates();
       if(timestamp) {
         this.working_date = new Date(timestamp);
@@ -184,7 +210,8 @@
       this.mode = (this.options.startView == 'time' && !this.options.timePicker) ? 'month' : this.options.startView;
 
       this.render();
-      this.picker.css(position);
+
+      this.picker.css(this.pickerPosition());
 
       if($.isFunction(this.options.onShow))
         this.options.onShow();
