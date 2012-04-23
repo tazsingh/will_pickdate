@@ -64,7 +64,8 @@ Authors
 -------
 * Tasveer Singh ([tazsingh](http://github.com/tazsingh "tazsingh")) 
 * Adam St. John ([astjohn](http://github.com/astjohn "astjohn"))
-* Andrew Walker ([awalkerca](http://github.com/awalkerca "awalkerca"))
+
+Take a look at the [contributors](https://github.com/zenapsis/will_pickdate/contributors "contributors") page for a full list of contributors.
 
 Inspired By
 -----------
