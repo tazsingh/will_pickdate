@@ -121,21 +121,22 @@
     onFocus: function(original, visual_input) {
       var init_visual_date;
 
-      if(init_visual_date = original.val()) {
-        init_visual_date = this.unformat(init_visual_date, this.options.inputOutputFormat).valueOf();
-      }
-      else {
+      if (this.working_date == undefined) {
         init_visual_date = new Date();
-        if(this.options.maxDate && init_visual_date.valueOf() > this.options.maxDate.valueOf()) {
-          init_visual_date = new Date(this.options.maxDate.valueOf());
-        }
-        if(this.options.minDate && init_visual_date.valueOf() < this.options.minDate.valueOf()) {
-          init_visual_date = new Date(this.options.minDate.valueOf());
+        if (this.options.maxDate || this.options.minDate) {
+          if(this.options.maxDate && init_visual_date.valueOf() > this.options.maxDate.valueOf()) {
+            this.working_date = new Date(this.options.maxDate.valueOf());
+          }
+          if(this.options.minDate && init_visual_date.valueOf() < this.options.minDate.valueOf()) {
+            this.working_date = new Date(this.options.minDate.valueOf());
+          }
+        } else {
+          this.working_date = init_visual_date;
         }
       }
 
       this.input = original, this.visual = visual_input;
-      this.show(init_visual_date);
+      this.show(this.working_date);
     },
 
     dateToObject: function(d) {
@@ -451,8 +452,9 @@
         i.val(this.leadZero(v));
       }, this)));
 
-      container.append($('<input type="text" class="minutes"' + (this.options.militaryTime ? ' style="left:110px"' : '') + ' maxlength="2" value="' +
-              this.leadZero(this.working_date.getMinutes()) + '"/>').mousewheel($.proxy(function(event, d, dx, dy) {
+      container.append($('<input type="text" class="minutes"' +
+        (this.options.militaryTime ? ' style="left:110px"' : '') + ' maxlength="2" value="' +
+         this.leadZero(this.working_date.getMinutes()) + '"/>').mousewheel($.proxy(function(event, d, dx, dy) {
         event.preventDefault();
         event.stopPropagation();
 
@@ -567,25 +569,45 @@
         this.picker.find('.titleText').text(text);
     },
 
-    limited: function(type) {
-      var cs = !!this.options.minDate,
-        ce = !!this.options.maxDate;
+    _clearTime: function(d) {
+      d.setHours(0);
+      d.setMinutes(0);
+      d.setSeconds(0);
+      d.setMilliseconds(0);
+    },
 
-      if(!(cs && ce)) return false;
+    limited: function(type) {
+      var bmin = !!this.minDate,
+          bmax = !!this.maxDate,
+          wd, mind, maxd;
 
       switch(type) {
         case 'year':
-          return (cs && this.working_date.getFullYear() < this.options.minDate.getFullYear()) ||
-                  (ce && this.working_date.getFullYear() > this.options.maxDate.getFullYear());
+          return (bmin && this.working_date.getFullYear() < this.minDate.getFullYear()) ||
+                 (bmax && this.working_date.getFullYear() > this.maxDate.getFullYear());
 
         case 'month':
           var ms = parseInt('' + this.working_date.getFullYear() + this.leadZero(this.working_date.getMonth()), 10);
-          return cs && ms < parseInt('' + this.options.minDate.getFullYear() +
-                  this.leadZero(this.options.minDate.getMonth()), 10) || ce && ms >
-                  parseInt('' + this.options.maxDate.getFullYear() + this.leadZero(this.options.maxDate.getMonth()), 10);
+          return bmin && ms < parseInt('' + this.minDate.getFullYear() +
+                  this.leadZero(this.minDate.getMonth()), 10) || bmax && ms >
+                  parseInt('' + this.maxDate.getFullYear() + this.leadZero(this.maxDate.getMonth()), 10);
 
         case 'date':
-          return (cs && this.working_date < this.options.minDate) || (ce && this.working_date > this.options.maxDate);
+          // time portion of dates must be set to zero for valid comparison
+          if (this.working_date) {
+            wd = new Date(this.working_date);
+            this._clearTime(wd);
+          }
+          if (this.minDate) {
+            mind = new Date(this.minDate);
+            this._clearTime(mind);
+          }
+          if (this.maxDate) {
+            maxd = new Date(this.maxDate);
+            this._clearTime(maxd);
+          }
+
+          return (bmin && wd < mind) || (bmax && wd > maxd);
       }
     },
 
@@ -668,13 +690,10 @@
 
     formatMinMaxDates: function() {
       if (this.options.minDate && this.options.minDate.format) {
-        this.options.minDate = this.unformat(this.options.minDate.date, this.options.minDate.format);
+        this.minDate = this.unformat(this.options.minDate.date, this.options.minDate.format);
       }
       if (this.options.maxDate && this.options.maxDate.format) {
-        this.options.maxDate = this.unformat(this.options.maxDate.date, this.options.maxDate.format);
-        this.options.maxDate.setHours(23);
-        this.options.maxDate.setMinutes(59);
-        this.options.maxDate.setSeconds(59);
+        this.maxDate = this.unformat(this.options.maxDate.date, this.options.maxDate.format);
       }
     },
 
@@ -716,73 +735,41 @@
     },
 
     unformat: function(t, format) {
+      // presumably the mask and date will split identically
+      // date portions must be separated by a non-word character
       var d = new Date(),
-        a = {},
-        c,m,v;
-      t = t.toString();
+          maskParts = format.split(/\W+/),
+          dateParts = t.split(/\W+/),
+          offset = 0, notCounter = 0, part,
+          target, targetMask;
 
-      for (var i = 0; i < format.length; i++) {
-        c = format.charAt(i);
-        switch(c) {
-          case '\\': r = null; i++; break;
-          case 'y': r = '[0-9]{2}'; break;
-          case 'Y': r = '[0-9]{4}'; break;
-          case 'm': r = '0[1-9]|1[012]'; break;
-          case 'n': r = '[1-9]|1[012]'; break;
-          case 'M': r = '[A-Za-z]{'+this.options.monthShort+'}'; break;
-          case 'F': r = '[A-Za-z]+'; break;
-          case 'd': r = '0[1-9]|[12][0-9]|3[01]'; break;
-          case 'j': r = '[1-9]|[12][0-9]|3[01]'; break;
-          case 'D': r = '[A-Za-z]{'+this.options.dayShort+'}'; break;
-          case 'l': r = '[A-Za-z]+'; break;
-          case 'G':
-          case 'H':
-          case 'g':
-          case 'h': r = '[0-9]{1,2}'; break;
-          case 'a': r = '(am|pm)'; break;
-          case 'A': r = '(AM|PM)'; break;
-          case 'i':
-          case 's': r = '[012345][0-9]'; break;
-          case 'U': r = '-?[0-9]+$'; break;
-          default:  r = null;
+      for (var i = 0; i < maskParts.length; i++) {
+        targetMask = maskParts[i];
+        target = dateParts[i];
+        switch(targetMask) {
+          case 'yyyy': d.setFullYear(target); break; // year with four digits
+          case 'm':                             // month without leading zero (0-11)
+          case 'mm': d.setMonth(target); break; // month with leading zero (00-11)
+          case 'd':                             // day without leading zero (1-31)
+          case 'dd': d.setDate(target); break;  // day with leading zero (01-31)
+          case 'H':                             // hours without leading zero (24-hour clock)
+          case 'HH': d.setHours(target); break; // hours with leading zero (24-hour clock)
+          case 'M':                               // minutes without leading zero
+          case 'MM': d.setMinutes(target); break; // minutes with leading zero
+          case 'S':                                   // seconds without leading zero
+          case 'SS': d.setSeconds(target); break;     // seconds with leading zero
+          case 'l':                                   // Milliseconds, 3 digits
+          case 'L': d.setMilliseconds(target); break; // Milliseconds, 2 digits
+          case 'U': d = new Date(parseInt(target, 10) * 1000); break; // number of milliseconds since epoch
+          default:
+            notCounter += 1;
         }
 
-        if (r) {
-          m = t.match('^'+r);
-          if (m) {
-            a[c] = m[0];
-            t = t.substring(a[c].length);
-          } else {
-            if (this.options.debug) alert("Fatal Error in will_pickdate\n\nUnexpected format at: '"+t+"' expected format character '"+c+"' (pattern '"+r+"')");
-            return d;
-          }
-        } else {
-          t = t.substring(1);
-        }
       }
-
-      for (c in a) {
-        v = a[c];
-        switch(c) {
-          case 'y': d.setFullYear(v < 30 ? 2000 + parseInt(v, 10) : 1900 + parseInt(v, 10)); break; // assume between 1930 - 2029
-          case 'Y': d.setFullYear(v); break;
-          case 'm':
-          case 'n': d.setMonth(v - 1); break;
-          // FALL THROUGH NOTICE! "M" has no break, because "v" now is the full month (eg. 'February'), which will work with the next format "F":
-          case 'M': v = this.options.months.filter(function(index) { return this.substring(0,this.options.monthShort) == v })[0];
-          case 'F': d.setMonth(options.months.indexOf(v)); break;
-          case 'd':
-          case 'j': d.setDate(v); break;
-          case 'G':
-          case 'H': d.setHours(v); break;
-          case 'g':
-          case 'h': if (a['a'] == 'pm' || a['A'] == 'PM') { d.setHours(v == 12 ? 0 : parseInt(v, 10) + 12); } else { d.setHours(v); } break;
-          case 'i': d.setMinutes(v); break;
-          case 's': d.setSeconds(v); break;
-          case 'U': d = new Date(parseInt(v, 10) * 1000);
-        }
+      if (notCounter > 0 || maskParts.length != dateParts.length) {
+        console.warn("will_pickdate: Portions of the date given (" + t + ") were not parsed properly according to" +
+                     " the input format (" + format + ").");
       }
-
       return d;
     }
   };

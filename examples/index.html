@@ -16,26 +16,76 @@
 
 <section>
   <h2>Basic</h2>
-  <code>
-    $('#basic').will_pickdate();
-  </code>
+  <code>$('#basic').will_pickdate();</code>
   <input id="basic" type="text" name="basic" />
 </section>
 
 <section>
   <h2>With Time Picker</h2>
-  <code>
-    $('#w_time_picker').will_pickdate({timePicker: true});
-  </code>
+  <code>$('#w_time_picker').will_pickdate({timePicker: true});</code>
   <input id="w_time_picker" name="w_time_picker" type="text" />
 </section>
+
+<section>
+  <h2>With Maximum and Minimum Dates Set</h2>
+  <p>Note the code below uses a Date object only to keep with the present date.</p>
+  <code>var d = new Date(),
+  mind = new Date(),
+  maxd = new Date(),
+  maxStr, minStr;
+  maxd.setDate(d.getDate()+7);
+  mind.setDate(d.getDate()-7);
+  maxStr = maxd.getDate() + "-" + maxd.getMonth() + "-" + maxd.getFullYear(),
+  minStr = mind.getDate() + "-" + mind.getMonth() + "-" + mind.getFullYear();
+  $('#w_date_range').will_pickdate({ timePicker: true,
+    format: 'j F Y @ h:iA',
+    degbug: true,
+    inputOutputFormat: 'd-m-Y H:i:s',
+    maxDate: {
+      date: maxStr,
+      format: 'd-m-yyyy'
+    },
+    minDate: {
+      date: minStr,
+      format: 'd-m-yyyy'
+    }
+  });
+  </code>
+  <input id="w_date_range" type="text" />
+</section>
+
 
   <script type="text/javascript">
     // Basic
     $('#basic').will_pickdate();
 
     // Time Picker
-    $('#w_time_picker').will_pickdate({timePicker: true});
+    $('#w_time_picker').will_pickdate({timePicker: true,
+      format: 'j F Y @ h:iA'
+    });
+
+    // Date Range
+    var d = new Date(),
+        mind = new Date(),
+        maxd = new Date(),
+        maxStr, minStr;
+    maxd.setDate(d.getDate()+7);
+    mind.setDate(d.getDate()-7);
+    maxStr = maxd.getDate() + "-" + maxd.getMonth() + "-" + maxd.getFullYear(),
+    minStr = mind.getDate() + "-" + mind.getMonth() + "-" + mind.getFullYear();
+    $('#w_date_range').will_pickdate({ timePicker: true,
+      format: 'j F Y @ h:iA',
+      inputOutputFormat: 'd-m-Y H:i:s',
+      maxDate: {
+        date: maxStr,
+        format: 'd-m-yyyy'
+      },
+      minDate: {
+        date: minStr,
+        format: 'd-m-yyyy'
+      }
+    });
+
   </script>
 </body>
 </html>

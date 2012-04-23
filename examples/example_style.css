@@ -7,5 +7,6 @@ code {
   font-size:11px;
   padding:1em;
   display: block;
-  width: 400px;
+  white-space: pre;
+  width: 550px;
 }

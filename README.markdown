@@ -19,9 +19,9 @@ With Time Selection (requires jquery.mousewheel):
     $(name_of_element).will_pickdate({
         timePicker:true
     });
-    
+
 Options
-----------
+-------
 
     pickerClass: 'wpd'
     days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -46,8 +46,35 @@ Options
     debug: false
     toggleElements: null
 
+Minimum and Maximum Date Interpretation
+---------------------------------------
+
+Date format for minimum and maxium date range does not match that required by the other format specifiers, and options
+are restricted to the following syntax:
+
+    'yyyy' // year with four digits
+    'm'    // month without leading zero (0-11)
+    'mm'   // month with leading zero (00-11)
+    'd'    // day without leading zero (1-31)
+    'dd'   // day with leading zero (01-31)
+    'H'    // hours without leading zero (24-hour clock)
+    'HH'   // hours with leading zero (24-hour clock)
+    'M'    // minutes without leading zero
+    'MM'   // minutes with leading zero
+    'S'    // seconds without leading zero
+    'SS'   // seconds with leading zero
+    'l'    // Milliseconds, 3 digits
+    'L'    // Milliseconds, 2 digits
+    'U'    // number of milliseconds since epoch
+
+Each date portion must be separated by a non-word character.  Therefore, the following are valid examples:
+
+    'yyyy-d-m'
+    'dd-m-yyyy'
+    'd-m-yyyy HH:MM:SS'
+
 Callbacks
-------
+---------
 
     onShow: $.noop,   // triggered when will_pickdate pops up
     onClose: $.noop,  // triggered after will_pickdate is closed (destroyed)
@@ -62,7 +89,7 @@ Dependencies
 
 Authors
 -------
-* Tasveer Singh ([tazsingh](http://github.com/tazsingh "tazsingh")) 
+* Tasveer Singh ([tazsingh](http://github.com/tazsingh "tazsingh"))
 * Adam St. John ([astjohn](http://github.com/astjohn "astjohn"))
 * Andrew Walker ([awalkerca](http://github.com/awalkerca "awalkerca"))
 
