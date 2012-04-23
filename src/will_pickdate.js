@@ -50,12 +50,12 @@
       this.toggler = this.options.toggleElements.eq(index);
 
       document.keydown($.proxy(function(event) {
-        if(event.which == 9) this.close(null, true);
+        if(event.which == 9) this._close(null, true);
       }, this));
     }
 
-    this.formatMinMaxDates();
-    $(document).mousedown($.proxy(this.close, this));
+    this._formatMinMaxDates();
+    $(document).mousedown($.proxy(this._close, this));
 
     if (this.options.timePickerOnly) {
       this.options.timePicker = true;
@@ -63,11 +63,11 @@
     }
 
     if(init_clone_val = this.element.val()) {
-      init_clone_val = this.format(new Date(this.unformat(init_clone_val, this.options.inputOutputFormat)),
+      init_clone_val = this._format(new Date(this._unformat(init_clone_val, this.options.inputOutputFormat)),
               this.options.format);
     }
     else if(!this.options.allowEmpty) {
-      init_clone_val = this.format(new Date(), this.options.format);
+      init_clone_val = this._format(new Date(), this.options.format);
     }
     else {
       init_clone_val = '';
@@ -88,7 +88,7 @@
 
     if(this.toggler) {
       this.toggler.css('cursor', 'pointer').click($.proxy(function(event) {
-        this.onFocus(this.element, this.clone);
+        this._onFocus(this.element, this.clone);
       }, this));
 
       this.clone.blur($.proxy(function() {
@@ -101,24 +101,24 @@
           if(this.options.allowEmpty && (e.which == 46 || e.which == 8)) { // delete or backspace
             this.element.val('');
             $(e.target).val('');
-            this.close(null, true);
+            this._close(null, true);
           }
           else if(e.which == 9 || e.which == 27) { // tab or esc
-            this.close(null, true);
+            this._close(null, true);
           }
           else {
             e.preventDefault();
           }
         }, this),
         'focus': $.proxy(function(e) {
-          this.onFocus(this.element, this.clone);
+          this._onFocus(this.element, this.clone);
         }, this)
       });
     }
   }
 
   will_pickdate.prototype = {
-    onFocus: function(original, visual_input) {
+    _onFocus: function(original, visual_input) {
       var init_visual_date;
 
       if (this.working_date == undefined) {
@@ -136,10 +136,10 @@
       }
 
       this.input = original, this.visual = visual_input;
-      this.show(this.working_date);
+      this._show(this.working_date);
     },
 
-    dateToObject: function(d) {
+    _dateToObject: function(d) {
       return {
         year: d.getFullYear(),
         month: d.getMonth(),
@@ -150,7 +150,7 @@
       }
     },
 
-    dateFromObject: function(values) {
+    _dateFromObject: function(values) {
       var d = new Date(), v;
       d.setDate(1);
       $.each(['year', 'month', 'day', 'hours', 'minutes', 'seconds'], $.proxy(function(index, value) {
@@ -170,7 +170,7 @@
     },
 
     // Calculate position for picker. Returns object for use with css.
-    pickerPosition: function() {
+    _pickerPosition: function() {
       // base position is top left corner of visual input plus offset specified by user options
       var position = { left: this.visual.offset().left + this.options.positionOffset.x,
                        top: this.visual.offset().top + this.options.positionOffset.y },
@@ -199,8 +199,8 @@
       return position;
     },
 
-    show: function(timestamp) {
-      this.formatMinMaxDates();
+    _show: function(timestamp) {
+      this._formatMinMaxDates();
       if(timestamp) {
         this.working_date = new Date(timestamp);
       }
@@ -208,20 +208,20 @@
         this.working_date = new Date();
       }
       this.today = new Date();
-      this.choice = this.dateToObject(this.working_date);
+      this.choice = this._dateToObject(this.working_date);
       this.mode = (this.options.startView == 'time' && !this.options.timePicker) ? 'month' : this.options.startView;
 
-      this.render();
+      this._render();
 
-      this.picker.css(this.pickerPosition());
+      this.picker.css(this._pickerPosition());
 
       if($.isFunction(this.options.onShow))
         this.options.onShow();
     },
 
-    render: function(use_fx) {
+    _render: function(use_fx) {
       if(!this.picker) {
-        this.constructPicker();
+        this._constructPicker();
       }
       else {
         var o = this.oldContents;
@@ -234,15 +234,15 @@
       this.limit = { right: false, left: false };
 
       switch(this.mode) {
-        case 'decades': this.renderDecades(); break;
-        case 'year': this.renderYear(); break;
-        case 'time': this.renderTime(); this.limit = { right: true, left: true }; break;
-        default: this.renderMonth();
+        case 'decades': this._renderDecades(); break;
+        case 'year': this._renderYear(); break;
+        case 'time': this._renderTime(); this.limit = { right: true, left: true }; break;
+        default: this._renderMonth();
       }
 
       this.picker.find('.previous').toggleClass('disabled',this.limit.left);
       this.picker.find('.next').toggleClass('disabled',this.limit.right);
-      this.picker.find('.title').css('cursor', this.allowZoomOut() ? 'pointer' : 'default');
+      this.picker.find('.title').css('cursor', this._allowZoomOut() ? 'pointer' : 'default');
 
       this.working_date = startDate;
 
@@ -250,10 +250,10 @@
         this.picker.fadeIn(this.options.animationDuration);
       }
 
-      if(use_fx) this.fx(use_fx);
+      if(use_fx) this._fx(use_fx);
     },
 
-    fx: function(effects) {
+    _fx: function(effects) {
       if(effects == 'right') {
         this.oldContents.css('left',0).show();
         this.newContents.css('left',this.bodyWidth).show();
@@ -271,7 +271,7 @@
       }
     },
 
-    constructPicker: function() {
+    _constructPicker: function() {
       $(document.body).append(this.picker = $('<div class="' + this.options.pickerClass + '" />'));
       if(this.options.useFadeInOut) {
         this.picker.hide();
@@ -280,11 +280,11 @@
       var h, title_cont, b;
 
       this.picker.append(h = $('<div class="header"/>'));
-      h.append(title_cont = $('<div class="title"/>').click($.proxy(this.zoomOut, this)));
+      h.append(title_cont = $('<div class="title"/>').click($.proxy(this._zoomOut, this)));
 
-      h.append($('<div class="previous">&larr;</div>').click($.proxy(this.previous, this)));
-      h.append($('<div class="next">&rarr;</div>').click($.proxy(this.next, this)));
-      h.append($('<div class="closeButton">x</div>').click($.proxy(this.close, this)));
+      h.append($('<div class="previous">&larr;</div>').click($.proxy(this._previous, this)));
+      h.append($('<div class="next">&rarr;</div>').click($.proxy(this._next, this)));
+      h.append($('<div class="closeButton">x</div>').click($.proxy(this._close, this)));
       title_cont.append($('<span class="titleText"/>'));
 
       this.picker.append(b = $('<div class="body"/>'));
@@ -300,12 +300,12 @@
               this.bodyWidth + 'px;height:' + this.bodyHeight + 'px" />'));
     },
 
-    renderDecades: function() {
+    _renderDecades: function() {
       while(this.working_date.getFullYear() % this.options.yearsPerPage > 0) {
         this.working_date.setFullYear(this.working_date.getFullYear() - 1);
       }
 
-      this.renderTitle(this.working_date.getFullYear() + '-' +
+      this._renderTitle(this.working_date.getFullYear() + '-' +
               (this.working_date.getFullYear() + this.options.yearsPerPage - 1));
 
       var i, y, e, available = false, container;
@@ -321,7 +321,7 @@
         container.append(e = $('<div class="year year' + i + (y == this.today.getFullYear() ? ' today' : '') +
                 (y == this.choice.year ? ' selected' : '') + '">' + y + '</>'));
 
-        if(this.limited('year')) {
+        if(this._limited('year')) {
           e.addClass('unavailable');
           if(available) {
             this.limit.right = true;
@@ -335,7 +335,7 @@
           e.click({year: y}, $.proxy(function(event) {
             this.working_date.setFullYear(event.data.year);
             this.mode = 'year';
-            this.render('fade');
+            this._render('fade');
           }, this));
         }
         this.working_date.setFullYear(this.working_date.getFullYear() + 1);
@@ -347,7 +347,7 @@
       }
     },
 
-    renderYear: function() {
+    _renderYear: function() {
       var month = this.today.getMonth(),
           this_year = this.working_date.getFullYear() == this.today.getFullYear(),
           selected_year = this.working_date.getFullYear() == this.choice.year,
@@ -355,7 +355,7 @@
           container,
           i,e;
 
-      this.renderTitle(this.working_date.getFullYear());
+      this._renderTitle(this.working_date.getFullYear());
       this.working_date.setMonth(0);
 
       this.newContents.append(container = $('<div class="months"/>'));
@@ -366,7 +366,7 @@
                 (this.options.monthShort ? this.options.months[i].substring(0, this.options.monthShort) :
                         this.options.months[i]) + '</div>'));
 
-        if(this.limited('month')) {
+        if(this._limited('month')) {
           e.addClass('unavailable');
           if(available) {
             this.limit.right = true;
@@ -381,7 +381,7 @@
             this.working_date.setDate(1);
             this.working_date.setMonth(event.data.month);
             this.mode = 'month';
-            this.render('fade');
+            this._render('fade');
           }, this));
         }
         this.working_date.setMonth(i);
@@ -389,21 +389,21 @@
       if(!available) this.limit.right = true;
     },
 
-    renderTime: function() {
+    _renderTime: function() {
       var container;
 
       this.newContents.append(container = $('<div class="time"/>'));
 
       if(this.options.timePickerOnly) {
-          this.renderTitle('Select a time');
+          this._renderTitle('Select a time');
       }
       else {
-          this.renderTitle(this.format(this.working_date, 'j M, Y'));
+          this._renderTitle(this._format(this.working_date, 'j M, Y'));
       }
 
       container.append($('<input type="text" class="hour"' + (this.options.militaryTime ? ' style="left:30px"' : '') +
             ' maxlength="2" value="' +
-              this.leadZero(this.options.militaryTime ?
+              this._leadZero(this.options.militaryTime ?
                 this.working_date.getHours() :
                   (this.working_date.getHours() > 12 ? this.working_date.getHours() - 12 :
                     this.working_date.getHours())) + '"/>').mousewheel($.proxy(function(event, d, dx, dy) {
@@ -449,12 +449,12 @@
           }
         }
 
-        i.val(this.leadZero(v));
+        i.val(this._leadZero(v));
       }, this)));
 
       container.append($('<input type="text" class="minutes"' +
         (this.options.militaryTime ? ' style="left:110px"' : '') + ' maxlength="2" value="' +
-         this.leadZero(this.working_date.getMinutes()) + '"/>').mousewheel($.proxy(function(event, d, dx, dy) {
+         this._leadZero(this.working_date.getMinutes()) + '"/>').mousewheel($.proxy(function(event, d, dx, dy) {
         event.preventDefault();
         event.stopPropagation();
 
@@ -467,7 +467,7 @@
           v = (v > 0) ? v - 1 : 59;
         }
 
-        i.val(this.leadZero(v));
+        i.val(this._leadZero(v));
       }, this)));
 
       container.append($('<div class="separator"' + (this.options.militaryTime ? ' style="left:91px"' : '') + '>:</div>'));
@@ -489,22 +489,22 @@
 
       container.append($('<input type="submit" value="OK" class="ok"/>').click($.proxy(function(event) {
         event.stopPropagation();
-        this.select($.extend(this.dateToObject(this.working_date),
+        this._select($.extend(this._dateToObject(this.working_date),
           { hours: parseInt(this.picker.find('.hour').val(), 10) +
               (!this.options.militaryTime && this.picker.find('.ampm').val() == "PM" ? 12 : 0),
             minutes: parseInt(this.picker.find('.minutes').val(), 10) }));
       }, this)));
     },
 
-    renderMonth: function() {
+    _renderMonth: function() {
       var month = this.working_date.getMonth(),
               container = $('<div class="days"/>'),
               titles = $('<div class="titles"/>'),
               available = false,
               t = this.today.toDateString(),
-              currentChoice = this.dateFromObject(this.choice).toDateString(),
+              currentChoice = this._dateFromObject(this.choice).toDateString(),
               d, i, classes, e, weekContainer;
-      this.renderTitle(this.options.months[month] + ' ' + this.working_date.getFullYear());
+      this._renderTitle(this.options.months[month] + ' ' + this.working_date.getFullYear());
 
       this.working_date.setDate(1);
       while(this.working_date.getDay() != this.options.startDay) {
@@ -529,7 +529,7 @@
         }
 
         weekContainer.append(e = $('<div class="' + classes.join(' ') + '">' + this.working_date.getDate() + '</div>'));
-        if(this.limited('date')) {
+        if(this._limited('date')) {
           e.addClass('unavailable');
           if(available) {
             this.limit.right = true;
@@ -547,10 +547,10 @@
                 this.working_date.setDate(event.data.day);
                 this.working_date.setMonth(event.data.month);
                 this.mode = 'time';
-                this.render('fade');
+                this._render('fade');
               }
               else {
-                this.select(event.data);
+                this._select(event.data);
               }
           }, this));
         }
@@ -560,8 +560,8 @@
       if(!available) this.limit.right = true;
     },
 
-    renderTitle: function(text){
-        if(this.allowZoomOut()){
+    _renderTitle: function(text){
+        if(this._allowZoomOut()){
             this.picker.find('.title').removeClass('disabled');
         }else{
             this.picker.find('.title').addClass('disabled');
@@ -576,7 +576,7 @@
       d.setMilliseconds(0);
     },
 
-    limited: function(type) {
+    _limited: function(type) {
       var bmin = !!this.minDate,
           bmax = !!this.maxDate,
           wd, mind, maxd;
@@ -587,10 +587,10 @@
                  (bmax && this.working_date.getFullYear() > this.maxDate.getFullYear());
 
         case 'month':
-          var ms = parseInt('' + this.working_date.getFullYear() + this.leadZero(this.working_date.getMonth()), 10);
+          var ms = parseInt('' + this.working_date.getFullYear() + this._leadZero(this.working_date.getMonth()), 10);
           return bmin && ms < parseInt('' + this.minDate.getFullYear() +
-                  this.leadZero(this.minDate.getMonth()), 10) || bmax && ms >
-                  parseInt('' + this.maxDate.getFullYear() + this.leadZero(this.maxDate.getMonth()), 10);
+                  this._leadZero(this.minDate.getMonth()), 10) || bmax && ms >
+                  parseInt('' + this.maxDate.getFullYear() + this._leadZero(this.maxDate.getMonth()), 10);
 
         case 'date':
           // time portion of dates must be set to zero for valid comparison
@@ -611,23 +611,23 @@
       }
     },
 
-    allowZoomOut: function() {
+    _allowZoomOut: function() {
       if (this.mode == 'time' && this.options.timePickerOnly) return false;
       if (this.mode == 'decades') return false;
       return !(this.mode == 'year' && !this.options.yearPicker);
     },
 
-    zoomOut: function() {
-      if(!this.allowZoomOut()) return;
+    _zoomOut: function() {
+      if(!this._allowZoomOut()) return;
       switch(this.mode) {
         case 'year': this.mode = 'decades'; break;
         case 'time': this.mode = 'month'; break;
         default: this.mode = 'year';
       }
-      this.render('fade');
+      this._render('fade');
     },
 
-    previous: function() {
+    _previous: function() {
       switch(this.mode) {
         case 'decades':
           this.working_date.setFullYear(this.working_date.getFullYear() - this.options.yearsPerPage); break;
@@ -637,12 +637,12 @@
           this.working_date.setMonth(this.working_date.getMonth() - 1);
       }
       if(this.mode != 'time'){
-        this.render('left');
+        this._render('left');
       }
 
     },
 
-    next: function() {
+    _next: function() {
       switch(this.mode) {
         case 'decades':
           this.working_date.setFullYear(this.working_date.getFullYear() + this.options.yearsPerPage); break;
@@ -652,11 +652,11 @@
           this.working_date.setMonth(this.working_date.getMonth() + 1);
       }
       if (this.mode !='time'){
-        this.render('right');
+        this._render('right');
       }
     },
 
-    close: function(e, force) {
+    _close: function(e, force) {
       if(!this.picker || this.closing) return;
 
       if(force || (e && e.target != this.picker && this.picker.has(e.target).size() == 0 &&
@@ -665,43 +665,43 @@
         this.element.blur();
         if(this.options.useFadeInOut) {
           this.closing = true;
-          this.picker.fadeOut(this.options.animationDuration >> 1, $.proxy(this.destroy, this));
+          this.picker.fadeOut(this.options.animationDuration >> 1, $.proxy(this._destroy, this));
         }
         else {
-          this.destroy();
+          this._destroy();
         }
       }
     },
 
-    destroy: function() {
+    _destroy: function() {
       this.picker.remove();
       this.picker = null;
       this.closing = false;
       if($.isFunction(this.options.onClose)) this.options.onClose();
     },
 
-    select: function(values) {
-      this.working_date = this.dateFromObject($.extend(this.choice, values));
-      this.input.val(this.format(this.working_date, this.options.inputOutputFormat)).change();
-      this.visual.val(this.format(this.working_date, this.options.format));
+    _select: function(values) {
+      this.working_date = this._dateFromObject($.extend(this.choice, values));
+      this.input.val(this._format(this.working_date, this.options.inputOutputFormat)).change();
+      this.visual.val(this._format(this.working_date, this.options.format));
       if($.isFunction(this.options.onSelect)) this.options.onSelect(this.working_date);
-      this.close(null, true);
+      this._close(null, true);
     },
 
-    formatMinMaxDates: function() {
+    _formatMinMaxDates: function() {
       if (this.options.minDate && this.options.minDate.format) {
-        this.minDate = this.unformat(this.options.minDate.date, this.options.minDate.format);
+        this.minDate = this._unformat(this.options.minDate.date, this.options.minDate.format);
       }
       if (this.options.maxDate && this.options.maxDate.format) {
-        this.maxDate = this.unformat(this.options.maxDate.date, this.options.maxDate.format);
+        this.maxDate = this._unformat(this.options.maxDate.date, this.options.maxDate.format);
       }
     },
 
-    leadZero: function(v) {
+    _leadZero: function(v) {
       return v < 10 ? '0'+v : v;
     },
 
-    format: function(t, format) {
+    _format: function(t, format) {
       var f = '',
         h = t.getHours(),
         m = t.getMonth();
@@ -711,22 +711,22 @@
           case '\\': i++; f+= format.charAt(i); break;
           case 'y': f += (100 + t.getYear() + '').substring(1); break;
           case 'Y': f += t.getFullYear(); break;
-          case 'm': f += this.leadZero(m + 1); break;
+          case 'm': f += this._leadZero(m + 1); break;
           case 'n': f += (m + 1); break;
           case 'M': f += this.options.months[m].substring(0,this.options.monthShort); break;
           case 'F': f += this.options.months[m]; break;
-          case 'd': f += this.leadZero(t.getDate()); break;
+          case 'd': f += this._leadZero(t.getDate()); break;
           case 'j': f += t.getDate(); break;
           case 'D': f += this.options.days[t.getDay()].substring(0,this.options.dayShort); break;
           case 'l': f += this.options.days[t.getDay()]; break;
           case 'G': f += h; break;
-          case 'H': f += this.leadZero(h); break;
+          case 'H': f += this._leadZero(h); break;
           case 'g': f += (h % 12 ? h % 12 : 12); break;
-          case 'h': f += this.leadZero(h % 12 ? h % 12 : 12); break;
+          case 'h': f += this._leadZero(h % 12 ? h % 12 : 12); break;
           case 'a': f += (h > 11 ? 'pm' : 'am'); break;
           case 'A': f += (h > 11 ? 'PM' : 'AM'); break;
-          case 'i': f += this.leadZero(t.getMinutes()); break;
-          case 's': f += this.leadZero(t.getSeconds()); break;
+          case 'i': f += this._leadZero(t.getMinutes()); break;
+          case 's': f += this._leadZero(t.getSeconds()); break;
           case 'U': f += Math.floor(t.valueOf() / 1000); break;
           default:  f += format.charAt(i);
         }
@@ -734,7 +734,7 @@
       return f;
     },
 
-    unformat: function(t, format) {
+    _unformat: function(t, format) {
       // presumably the mask and date will split identically
       // date portions must be separated by a non-word character
       var d = new Date(),
