@@ -54,6 +54,21 @@
   <input id="w_date_range" type="text" />
 </section>
 
+<section>
+  <h2>With Time Picker Callbacks</h2>
+  <p>Each picker uses callbacks to restrict the range of the sibling picker.</p>
+  <code>$('.time_picker_callbacks').will_pickdate({timePicker: true});</code>
+  <label for="time_picker_callback1">
+    Departure:
+  </label>
+  <input id="time_picker_callback1" class="time_picker_callbacks" type="text"
+         data-tipe="departure" name="picker[departure]" />
+  <label for="time_picker_callback1">
+    Arrival:
+  </label>
+  <input id="time_picker_callback2" class="time_picker_callbacks" type="text"
+         data-tipe="arrival" name="picker[arrival]"/>
+</section>
 
   <script type="text/javascript">
     // Basic
@@ -74,6 +89,7 @@
     maxStr = maxd.getDate() + "-" + maxd.getMonth() + "-" + maxd.getFullYear(),
     minStr = mind.getDate() + "-" + mind.getMonth() + "-" + mind.getFullYear();
     $('#w_date_range').will_pickdate({ timePicker: true,
+      debug: true,
       format: 'j F Y @ h:iA',
       inputOutputFormat: 'd-m-Y H:i:s',
       maxDate: {
@@ -83,6 +99,25 @@
       minDate: {
         date: minStr,
         format: 'd-m-yyyy'
+      }
+    });
+
+    $('.time_picker_callbacks').will_pickdate({ timePicker: true,
+      format: 'j F Y @ h:iA',
+      inputOutputFormat: 'd-m-Y H:i:s',
+      onSelect: function(pickerObj, date) {
+        console.log("inside onselect callback");
+        var $el, $target;
+        $el = $(pickerObj.current.value_element)
+        if ($el.attr("data-tipe") === "departure") {
+          //$target = $el.siblings("[name]='picker[arrival]'");
+          $target = $("#time_picker_callback2");
+          console.log("T:", $target);
+          $target.will_pickdate('setDateRange', {minDate: date});
+        } else {
+          $target = $el.siblings("[name]='picker[departure]'");
+          $target.will_pickdate('setDateRange', {maxDate: date});
+        }
       }
     });
 
