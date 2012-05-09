@@ -487,10 +487,17 @@
 
       container.append($('<input type="submit" value="OK" class="ok"/>').click($.proxy(function(event) {
         event.stopPropagation();
+        
+        var parsedHours = parseInt(this.picker.find('.hour').val(), 10);
+        if(!this.options.militaryTime){
+      	    parsedHours = parsedHours === 12 ? 0 : parsedHours;
+      	}
+        
         this.select($.extend(this.dateToObject(this.working_date),
-          { hours: parseInt(this.picker.find('.hour').val(), 10) +
-              (!this.options.militaryTime && this.picker.find('.ampm').val() == "PM" ? 12 : 0),
-            minutes: parseInt(this.picker.find('.minutes').val(), 10) }));
+          {
+      	    hours: parsedHours + (!this.options.militaryTime && this.picker.find('.ampm').val() == "PM" ? 12 : 0),
+      	    minutes: parseInt(this.picker.find('.minutes').val(), 10)
+      	  }));
       }, this)));
     },
 
