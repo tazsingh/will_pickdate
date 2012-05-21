@@ -47,7 +47,7 @@ Options
     toggleElements: null
 
 Callbacks
-------
+---------
 
     onShow: $.noop,   // triggered when will_pickdate pops up
     onClose: $.noop,  // triggered after will_pickdate is closed (destroyed)
@@ -59,6 +59,17 @@ Dependencies
 1. [jQuery](http://jquery.com/ "jQuery")
 2. [jquery.mousewheel](https://github.com/brandonaaron/jquery-mousewheel "jquery.mousewheel") if you would like to use the time picker
 
+
+Running the Tests
+-----------------
+
+Make sure that Ruby 1.9 is installed.
+
+Run `make guard` to run `bundle` and `guard`.
+
+Run `make server` to run the server.
+
+Point your browser to [http://localhost:8000/spec/index.html](http://localhost:8000/spec/index.html).
 
 Authors
 -------

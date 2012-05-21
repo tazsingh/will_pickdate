@@ -1,0 +1,19 @@
+describe("Initialization", function() {
+  it("should be defined", function() {
+    expect($.fn.will_pickdate).not.to.be(undefined);
+  })
+
+  it("should have its dependencies fulfulled", function() {
+    expect($).to.be(jQuery);
+    expect($.fn.mousewheel).not.to.be(undefined);
+  })
+
+  it("should tell me its version", function() {
+    expect($.fn.will_pickdate.version).not.to.be(undefined);
+    expect($.fn.will_pickdate.version).to.be.a("string");
+  })
+
+  it("should operate on a selector", function() {
+    expect($("window").will_pickdate()).to.be.ok();
+  })
+})
