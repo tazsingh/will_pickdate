@@ -1,16 +1,36 @@
 (function($) {
-  var will_pickdate
-    , VERSION = "0.3.0"
-    , selector_options = {};
+  var VERSION = "0.3.0"
+    , selectorOptions = {}
+    , resetOptionsForSelector;
+
+  resetOptionsForSelector = function(selector) {
+    selectorOptions[selector] = $.extend({}, $.will_pickdate.defaults);
+  }
+
+  $.will_pickdate = {
+    version: VERSION
+  , defaults: {}
+  , clearAllOptions: function() {
+      selectorOptions = {};
+    }
+  }
 
   $.fn.will_pickdate = function(options) {
     var selector = this.selector;
 
-    selector_options[selector] = $.extend(selector_options[selector] || {}, options);
+    if(typeof selectorOptions[selector] === "undefined") {
+      resetOptionsForSelector(selector);
+    }
+
+    selectorOptions[selector] = $.extend(selectorOptions[selector], options);
 
     return {
-      options: selector_options[selector]
+      options: selectorOptions[selector]
+    , clearOptions: function() {
+        resetOptionsForSelector(selector);
+      }
     , version: VERSION
+
     }
   }
 })(jQuery);

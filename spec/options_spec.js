@@ -25,7 +25,57 @@ describe("Options", function() {
     }).options.whatever);
   })
 
+  describe("Default Options", function() {
+    it("should allow me to set default options", function() {
+      expect($.will_pickdate.defaults = {
+        some_default: true
+      }).to.be($.will_pickdate.defaults);
+    })
+
+    it("should set those default options for new selections", function() {
+      $.will_pickdate.defaults = {
+        some_default: true
+      }
+
+      $("window").will_pickdate().clearOptions()
+
+      expect($("window").will_pickdate().options.some_default).to.be($.will_pickdate.defaults.some_default)
+    })
+  })
+
   describe("Shared Options", function() {
-    
+    it("should have a clear options function for a selector", function() {
+      expect($("window").will_pickdate().clearOptions).to.be.a("function");
+    })
+
+    it("should have a global clear options function", function() {
+      expect($.will_pickdate.clearAllOptions).to.be.a("function");
+    })
+
+    it("should clear options for a selector", function() {
+      var options = {
+        something: "cool"
+      };
+
+      expect($("window").will_pickdate(options).options.something).to.be(options.something);
+
+      $("window").will_pickdate().clearOptions()
+
+      expect($("window").will_pickdate().options.something).not.to.be(options.something);
+    })
+
+    it("should clear options globally", function() {
+      var options = {
+        something: "awesome"
+      }
+
+      expect($("window").will_pickdate(options).options.something).to.be(options.something);
+      expect($("document").will_pickdate(options).options.something).to.be(options.something);
+
+      $.will_pickdate.clearAllOptions();
+
+      expect($("window").will_pickdate().options.something).not.to.be(options.something);
+      expect($("document").will_pickdate().options.something).not.to.be(options.something);
+    })
   })
 })
