@@ -4,13 +4,13 @@
     , selector_options = {};
 
   $.fn.will_pickdate = function(options) {
-    var that = this;
+    var selector = this.selector;
 
-    selector_options[this.selector] = $.extend(selector_options[this.selector] || {}, options);
+    selector_options[selector] = $.extend(selector_options[selector] || {}, options);
 
-    return new (function() {
-      this.options = selector_options[that.selector];
-      this.version = VERSION;
-    })
+    return {
+      options: selector_options[selector]
+    , version: VERSION
+    }
   }
 })(jQuery);
