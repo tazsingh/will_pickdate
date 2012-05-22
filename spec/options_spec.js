@@ -26,20 +26,23 @@ describe("Options", function() {
   })
 
   describe("Default Options", function() {
+    it("should allow me to get the default options", function() {
+      expect($.will_pickdate.defaults).to.be.a("function");
+      expect($.will_pickdate.defaults()).to.be.an("object");
+    })
+
     it("should allow me to set default options", function() {
-      expect($.will_pickdate.defaults = {
-        some_default: true
-      }).to.be($.will_pickdate.defaults);
+      expect($.will_pickdate.extendDefaults).to.be.a("function");
     })
 
     it("should set those default options for new selections", function() {
-      $.will_pickdate.defaults = {
+      $.will_pickdate.extendDefaults({
         some_default: true
-      }
+      });
 
       $("window").will_pickdate().clearOptions()
 
-      expect($("window").will_pickdate().options.some_default).to.be($.will_pickdate.defaults.some_default)
+      expect($("window").will_pickdate().options.some_default).to.be($.will_pickdate.defaults().some_default);
     })
   })
 

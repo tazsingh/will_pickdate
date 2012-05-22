@@ -1,15 +1,21 @@
 (function($) {
   var VERSION = "0.3.0"
     , selectorOptions = {}
-    , resetOptionsForSelector;
+    , resetOptionsForSelector
+    , defaults;
 
   resetOptionsForSelector = function(selector) {
-    selectorOptions[selector] = $.extend({}, $.will_pickdate.defaults);
+    selectorOptions[selector] = $.extend({}, defaults);
   }
 
   $.will_pickdate = {
     version: VERSION
-  , defaults: {}
+  , defaults: function() {
+      return $.extend({}, defaults);
+    }
+  , extendDefaults: function(extendedDefaults) {
+      defaults = $.extend(defaults, extendedDefaults);
+    }
   , clearAllOptions: function() {
       selectorOptions = {};
     }
@@ -30,7 +36,6 @@
         resetOptionsForSelector(selector);
       }
     , version: VERSION
-
     }
   }
 })(jQuery);

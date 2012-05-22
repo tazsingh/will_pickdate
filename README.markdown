@@ -63,13 +63,10 @@ Dependencies
 Running the Tests
 -----------------
 
-Make sure that Ruby 1.9 is installed.
-
-Run `make guard` to run `bundle` and `guard`.
-
-Run `make server` to run the server.
-
-Point your browser to [http://localhost:8000/spec/index.html](http://localhost:8000/spec/index.html).
+1. Make sure that Ruby 1.9 is installed.
+2. Run `make guard` to run `bundle` and `guard`.
+3. Run `make server` separately to run the server.
+4. Point your browser to [http://localhost:8000/spec/index.html](http://localhost:8000/spec/index.html).
 
 Authors
 -------
