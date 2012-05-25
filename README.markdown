@@ -12,47 +12,7 @@ Usage
 -----
 Default:
 
-    $(name_of_element).will_pickdate({});
-
-With Time Selection (requires jquery.mousewheel):
-
-    $(name_of_element).will_pickdate({
-        timePicker:true
-    });
-    
-Options
-----------
-
-    pickerClass: 'wpd'
-    days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-    months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October','November', 'December']
-    dayShort: 2
-    monthShort: 3
-    startDay: 0 // Sunday (0) through Saturday (6) - be aware that this may affect your layout, since the days on the right might have a different margin
-    timePicker: false
-    timePickerOnly: false
-    yearPicker: true
-    militaryTime: false
-    yearsPerPage: 20
-    format: 'd-m-Y'
-    allowEmpty: false
-    inputOutputFormat: 'U' // default to unix timestamp
-    animationDuration: 400
-    useFadeInOut: !$.browser.msie // dont animate fade-in/fade-out for IE
-    startView: 'month' // allowed values: {time, month, year, decades}
-    positionOffset: { x: 0, y: 0 }
-    minDate: null // { date: '[date-string]', format: '[date-string-interpretation-format]' }
-    maxDate: null // same as minDate
-    debug: false
-    toggleElements: null
-
-Callbacks
----------
-
-    onShow: $.noop,   // triggered when will_pickdate pops up
-    onClose: $.noop,  // triggered after will_pickdate is closed (destroyed)
-    onSelect: $.noop  // triggered when a date is selected
-
+    $(name_of_element).will_pickdate();
 
 Dependencies
 ------------

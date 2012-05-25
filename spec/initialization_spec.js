@@ -1,11 +1,11 @@
 describe("Initialization", function() {
-  it("should be defined", function() {
-    expect($.fn.will_pickdate).not.to.be(undefined);
-  })
-
   it("should have its dependencies fulfulled", function() {
     expect($).to.be(jQuery);
     expect($.fn.mousewheel).not.to.be(undefined);
+  })
+
+  it("should be defined", function() {
+    expect($.fn.will_pickdate).not.to.be(undefined);
   })
 
   it("should operate on a selector", function() {

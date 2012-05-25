@@ -40,7 +40,7 @@ describe("Options", function() {
         some_default: true
       });
 
-      $("window").will_pickdate().clearOptions()
+      $("window").will_pickdate().clearOptions();
 
       expect($("window").will_pickdate().options.some_default).to.be($.will_pickdate.defaults().some_default);
     })
@@ -62,7 +62,7 @@ describe("Options", function() {
 
       expect($("window").will_pickdate(options).options.something).to.be(options.something);
 
-      $("window").will_pickdate().clearOptions()
+      $("window").will_pickdate().clearOptions();
 
       expect($("window").will_pickdate().options.something).not.to.be(options.something);
     })

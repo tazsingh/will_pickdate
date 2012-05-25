@@ -1,8 +1,10 @@
-(function($) {
+;(function($) {
   var VERSION = "0.3.0"
     , selectorOptions = {}
     , resetOptionsForSelector
-    , defaults;
+    , defaults = {
+        
+      };
 
   resetOptionsForSelector = function(selector) {
     selectorOptions[selector] = $.extend({}, defaults);
