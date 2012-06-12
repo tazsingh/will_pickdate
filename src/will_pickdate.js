@@ -68,6 +68,7 @@
     }
     else if(!this.options.allowEmpty) {
       init_clone_val = this.format(new Date(), this.options.format);
+      this.element.val(this.format(new Date(), this.options.inputOutputFormat));
     }
     else {
       init_clone_val = '';
