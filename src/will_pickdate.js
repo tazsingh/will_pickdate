@@ -579,7 +579,7 @@
       var cs = !!this.options.minDate,
         ce = !!this.options.maxDate;
 
-      if(!(cs && ce)) return false;
+      if(!(cs || ce)) return false;
 
       switch(type) {
         case 'year':
