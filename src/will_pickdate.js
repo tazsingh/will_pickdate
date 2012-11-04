@@ -39,12 +39,17 @@
       maxDate: null, // same as minDate
       debug: false,
       toggleElements: null,
+      initializeDate: null,
 
       // and some event hooks:
       onShow: $.noop,   // triggered when will_pickdate pops up
       onClose: $.noop,  // triggered after will_pickdate is closed (destroyed)
       onSelect: $.noop  // triggered when a date is selected
     }, options);
+
+    if(!this.options.initializeDate) {
+      this.options.initializeDate = new Date();
+    }
 
     if(this.options.toggleElements != null && this.options.toggleElements.jquery) {
       this.toggler = this.options.toggleElements.eq(index);
@@ -67,8 +72,8 @@
               this.options.format);
     }
     else if(!this.options.allowEmpty) {
-      init_clone_val = this.format(new Date(), this.options.format);
-      this.element.val(this.format(new Date(), this.options.inputOutputFormat));
+      init_clone_val = this.format(this.options.initializeDate, this.options.format);
+      this.element.val(this.format(this.options.initializeDate, this.options.inputOutputFormat));
     }
     else {
       init_clone_val = '';
@@ -126,7 +131,7 @@
         init_visual_date = this.unformat(init_visual_date, this.options.inputOutputFormat).valueOf();
       }
       else {
-        init_visual_date = new Date();
+        init_visual_date = this.options.initializeDate;
         if(this.options.maxDate && init_visual_date.valueOf() > this.options.maxDate.valueOf()) {
           init_visual_date = new Date(this.options.maxDate.valueOf());
         }
@@ -151,7 +156,7 @@
     },
 
     dateFromObject: function(values) {
-      var d = new Date(), v;
+      var d = this.options.initializeDate, v;
       d.setDate(1);
       $.each(['year', 'month', 'day', 'hours', 'minutes', 'seconds'], $.proxy(function(index, value) {
         v = values[value];
@@ -205,9 +210,9 @@
         this.working_date = new Date(timestamp);
       }
       else {
-        this.working_date = new Date();
+        this.working_date = this.options.initializeDate;
       }
-      this.today = new Date();
+      this.today = this.options.initializeDate;
       this.choice = this.dateToObject(this.working_date);
       this.mode = (this.options.startView == 'time' && !this.options.timePicker) ? 'month' : this.options.startView;
 
@@ -724,7 +729,7 @@
     },
 
     unformat: function(t, format) {
-      var d = new Date(),
+      var d = this.options.initializeDate,
         a = {},
         c,m,v;
       t = t.toString();
