@@ -45,6 +45,7 @@ Options
     maxDate: null // same as minDate
     debug: false
     toggleElements: null
+    initializeDate: null // Set this to a Date object
 
 Callbacks
 ------
