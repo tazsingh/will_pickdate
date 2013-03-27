@@ -2,7 +2,7 @@ will_pickdate
 =============
 
 Easy to use and well designed date picker widget with year in decades, month in year, day of month, and time of day support.
-[Check it out Here](http://zenapsis.github.com/will_pickdate/ "will_pickdate on Github")
+[Check it out Here](http://tazsingh.github.com/will_pickdate/ "will_pickdate on Github")
 
 Most date pickers only support day of month. If you want to pick a time, you would require another time picker widget. This is both bad UX and bad UI.
 With will_pickdate, you can do all that and more within a single well designed widget.
