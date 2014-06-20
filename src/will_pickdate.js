@@ -525,7 +525,7 @@
       this.newContents.append(container.append(titles));
 
       for(d = this.options.startDay; d < (this.options.startDay + 7); d++) {
-        titles.append($('<div class="title day day' + (d % 7) + '">' +
+        titles.append($('<div class="daytitle day day' + (d % 7) + '">' +
                 this.options.days[(d % 7)].substring(0,this.options.dayShort) + '</div>'));
       }
 
